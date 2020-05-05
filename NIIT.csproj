@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Features\FillYesterdayTimesheet.feature" />
     <None Include="Features\MarkAttendance.feature" />
     <None Include="Features\FillTimesheet.feature" />
     <None Include="packages.config" />

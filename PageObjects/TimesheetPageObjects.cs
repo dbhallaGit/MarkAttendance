@@ -47,6 +47,7 @@ namespace MarkAttendance.PageObjects
         [FindsBy(How = How.Id, Using = "end_Hour")]
         public IWebElement EndHour { get; private set; }
 
+        
         [FindsBy(How = How.Id, Using = "idleTime_Activity")]
         public IWebElement Activity { get; private set; }
 
@@ -58,6 +59,9 @@ namespace MarkAttendance.PageObjects
 
         [FindsBy(How =How.XPath,Using = "//*[@value='CLOSE']")]
         public IWebElement CloseTimeSheetBtn { get; private set; }
+
+        int columnNumber;
+        IWebElement ele;
 
         public void GoToWebTimeSheetPage()  
         {
@@ -83,10 +87,8 @@ namespace MarkAttendance.PageObjects
 
         internal void CheckCurrentWeek()
         {
-            Console.WriteLine(DateTime.Now.DayOfWeek);
-            DateTimeFormatInfo format = DateTimeFormatInfo.CurrentInfo;
-            Calendar cal = format.Calendar;
-            int week = cal.GetWeekOfYear(DateTime.Now, format.CalendarWeekRule, format.FirstDayOfWeek);
+
+            int week = GetCurrentWeek();
 
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             ClickElementWithJS(CustomBtn);
@@ -105,46 +107,44 @@ namespace MarkAttendance.PageObjects
 
         }
 
+        internal void SelectTimeSheet(int columnNumber) {
+
+            ele = driver.FindElement(By.XPath($"(//*[contains(@class,'col-lg-1')]/*[@class='row']/div/div/div/table/tbody/tr/td[@data-backdrop='static'][@data-target='#idleActivityScreenModal'])[{columnNumber}]"));
+
+            ClickElementWithJS(ele);
+
+        }
         
         internal void EnterHours()
         {
-            int columnNumber;
-            IWebElement ele;
+            
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             
             if (DayOfWeek().Equals("monday"))
             {
                 columnNumber = 6;
-                 ele= driver.FindElement(By.XPath($"(//*[contains(@class,'col-lg-1')]/*[@class='row']/div/div/div/table/tbody/tr/td[@data-backdrop='static'][@data-target='#idleActivityScreenModal'])[{columnNumber}]"));
-               
-                ClickElementWithJS(ele);
+                SelectTimeSheet(columnNumber);
 
-               
             }
             else if (DayOfWeek().Equals("tuesday"))
             {
                 columnNumber = 78;
-                //ele = driver.FindElement(By.XPath("(//*[contains(@class,'col-lg-1')]/*[@class='row']/div/div/div/table/tbody/tr/td[@data-backdrop='static'][@data-target='#idleActivityScreenModal'])[last()]"));
-                ele = driver.FindElement(By.XPath($"(//*[contains(@class,'col-lg-1')]/*[@class='row']/div/div/div/table/tbody/tr/td[@data-backdrop='static'][@data-target='#idleActivityScreenModal'])[{columnNumber}]"));
-                ClickElementWithJS(ele);
+                SelectTimeSheet(columnNumber);
             }
             else if (DayOfWeek().Equals("wednesday"))
             {
                 columnNumber = 150;
-                ele = driver.FindElement(By.XPath($"(//*[contains(@class,'col-lg-1')]/*[@class='row']/div/div/div/table/tbody/tr/td[@data-backdrop='static'][@data-target='#idleActivityScreenModal'])[{columnNumber}]"));
-                ClickElementWithJS(ele);
+                SelectTimeSheet(columnNumber);
             }
             else if (DayOfWeek().Equals("thrusday"))
             {
                 columnNumber = 222;
-                ele = driver.FindElement(By.XPath($"(//*[contains(@class,'col-lg-1')]/*[@class='row']/div/div/div/table/tbody/tr/td[@data-backdrop='static'][@data-target='#idleActivityScreenModal'])[{columnNumber}]"));
-                ClickElementWithJS(ele);
+                SelectTimeSheet(columnNumber);
             }
             else if (DayOfWeek().Equals("friday"))
             {
                 columnNumber = 294;
-                ele = driver.FindElement(By.XPath($"(//*[contains(@class,'col-lg-1')]/*[@class='row']/div/div/div/table/tbody/tr/td[@data-backdrop='static'][@data-target='#idleActivityScreenModal'])[{columnNumber}]"));
-                ClickElementWithJS(ele);
+                SelectTimeSheet(columnNumber);
             }
             else if (DayOfWeek().Equals("saturday"))
                 Console.WriteLine("Saturday");
@@ -177,6 +177,64 @@ namespace MarkAttendance.PageObjects
 
         }
 
-       
+        internal void CheckYesterdayTimesheetIsFilled()
+        {
+            if (DayOfWeek().Equals("monday"))
+            {
+                int week = GetCurrentWeek();
+
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+                ClickElementWithJS(CustomBtn);
+
+
+                SelectElement selectYear = new SelectElement(SelectYear);
+                selectYear.SelectByValue(DateTime.Now.Year.ToString());
+
+
+                ClickElement(SelectWeekOfTheYear);
+                SelectElement selectWeek = new SelectElement(SelectWeekOfTheYear);
+                selectWeek.SelectByIndex(week - 2);
+
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+                ClickElement(SelectWeek);
+
+                columnNumber = 294;
+                SelectTimeSheet(columnNumber);
+
+                
+
+            }
+
+            else if (DayOfWeek().Equals("tuesday"))
+            {
+                columnNumber = 6;
+                SelectTimeSheet(columnNumber);
+            }
+            else if (DayOfWeek().Equals("wednesday"))
+            {
+                columnNumber = 78;
+                SelectTimeSheet(columnNumber);
+            }
+            else if (DayOfWeek().Equals("thrusday"))
+            {
+                columnNumber = 150;
+                SelectTimeSheet(columnNumber);
+            }
+            else if (DayOfWeek().Equals("friday"))
+            {
+                columnNumber = 222;
+                SelectTimeSheet(columnNumber);
+            }
+            else if (DayOfWeek().Equals("saturday"))
+            {
+                columnNumber = 294;
+                SelectTimeSheet(columnNumber);
+            }
+            else if (DayOfWeek().Equals("sunday"))
+                Console.WriteLine("Sunday");
+
+            
+        }
+
     }
 }

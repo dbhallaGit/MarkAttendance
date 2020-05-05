@@ -139,5 +139,13 @@ namespace MarkAttendance
             }
 
         }
+
+        public int GetCurrentWeek() {
+            Console.WriteLine(DateTime.Now.DayOfWeek);
+            DateTimeFormatInfo format = DateTimeFormatInfo.CurrentInfo;
+        Calendar cal = format.Calendar;
+         return cal.GetWeekOfYear(DateTime.Now, format.CalendarWeekRule, format.FirstDayOfWeek);
+            
+    }
     }
 }

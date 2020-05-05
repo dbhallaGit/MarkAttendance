@@ -46,5 +46,24 @@ namespace MarkAttendance.Steps
 
         }
 
+        [Given(@"check if timesheet is not present")]
+        public void GivenCheckIfTimesheetIsNotPresent()
+        {
+            dashboardPage.GoToTimeSheetPage();
+            SwitchToNextWindow();
+            timesheetPage.GoToWebTimeSheetPage();
+            SwitchToNextWindow();
+            timesheetPage.OpenProhenceTimeSheet();
+            timesheetPage.CheckCurrentWeek();
+            timesheetPage.CheckYesterdayTimesheetIsFilled();
+        }
+
+        [Then(@"Fill yesterday timesheet")]
+        public void ThenFillYesterdayTimesheet()
+        {
+            timesheetPage.selectTimeAndRemark();
+        }
+
+
     }
 }

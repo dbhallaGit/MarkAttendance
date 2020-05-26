@@ -14,6 +14,7 @@ using OpenQA.Selenium.Remote;
 
 using OpenQA.Selenium.Support.UI;
 using System.Globalization;
+using System.Linq.Expressions;
 
 namespace MarkAttendance
 
@@ -55,6 +56,14 @@ namespace MarkAttendance
             else if (ConfigurationManager.AppSettings["Browser"].ToLower().Equals("chrome"))
             {
                 driver = new ChromeDriver();
+                Console.WriteLine("Driver launched");
+                driver.Manage().Window.Maximize();
+                String URL = ConfigurationManager.AppSettings["URL"];
+                driver.Navigate().GoToUrl(URL);
+            }
+            else if (ConfigurationManager.AppSettings["Browser"].ToLower().Equals("firefox"))
+            {
+                driver = new FirefoxDriver();
                 Console.WriteLine("Driver launched");
                 driver.Manage().Window.Maximize();
                 String URL = ConfigurationManager.AppSettings["URL"];
@@ -140,12 +149,25 @@ namespace MarkAttendance
 
         }
 
-        public int GetCurrentWeek() {
+        public int GetCurrentWeek() 
+        {
             Console.WriteLine(DateTime.Now.DayOfWeek);
             DateTimeFormatInfo format = DateTimeFormatInfo.CurrentInfo;
-        Calendar cal = format.Calendar;
+            Calendar cal = format.Calendar;
          return cal.GetWeekOfYear(DateTime.Now, format.CalendarWeekRule, format.FirstDayOfWeek);
             
-    }
+        }
+
+        public bool IsElementVisible(IWebElement element)
+        {
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Convert.ToInt32(ConfigurationManager.AppSettings["TimeOut"])));
+            try {
+               wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(element));
+               return element.Displayed;
+            } catch(Exception e){
+                return false;
+            }
+        }
+
     }
 }

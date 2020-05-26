@@ -27,6 +27,7 @@ namespace MarkAttendance.Steps
         {
             loginPage.LoginWithId.Click();
             loginPage.Login(ConfigurationManager.AppSettings["Username"], ConfigurationManager.AppSettings["Password"]);
+            dashboardPage.DeclareWFH(ConfigurationManager.AppSettings["WFH"]);
             dashboardPage.CloseStartUpPopUpDialouge();
         }
 

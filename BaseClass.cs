@@ -52,23 +52,24 @@ namespace MarkAttendance
 
                 ChromeOptions Options = new ChromeOptions();
                 driver = new RemoteWebDriver(new Uri("http://192.168.99.100:4444/wd/hub/"), Options.ToCapabilities());
-            }
+
+                        }
             else if (ConfigurationManager.AppSettings["Browser"].ToLower().Equals("chrome"))
             {
                 driver = new ChromeDriver();
-                Console.WriteLine("Driver launched");
-                driver.Manage().Window.Maximize();
-                String URL = ConfigurationManager.AppSettings["URL"];
-                driver.Navigate().GoToUrl(URL);
+                Console.WriteLine(" Chrome browser launched");
+                
             }
             else if (ConfigurationManager.AppSettings["Browser"].ToLower().Equals("firefox"))
             {
                 driver = new FirefoxDriver();
-                Console.WriteLine("Driver launched");
-                driver.Manage().Window.Maximize();
-                String URL = ConfigurationManager.AppSettings["URL"];
-                driver.Navigate().GoToUrl(URL);
+                Console.WriteLine("firefox browser launched");
+                
             }
+
+            driver.Manage().Window.Maximize();
+            String URL = ConfigurationManager.AppSettings["URL"];
+            driver.Navigate().GoToUrl(URL);
         }
 
 

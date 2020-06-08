@@ -41,7 +41,7 @@ namespace MarkAttendance.PageObjects
 
             try
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
                 ClickElement(CloseStartUpPopBtn);
             }
             catch (Exception e)
@@ -54,7 +54,8 @@ namespace MarkAttendance.PageObjects
         internal void DeclareWFH(string v)
         {
             try {
-                if (IsElementVisible(WFHradiobutton)) {
+                if (IsElementVisible(WFHradiobutton)) 
+                    {
                     if (v.ToLower().Equals("yes"))
 
                         ClickElement(WFHradiobutton);
@@ -86,7 +87,27 @@ namespace MarkAttendance.PageObjects
 
         public void GoToAttendacePage() {
 
-            AttendaceBtn.Click();
+            try
+            {
+                AttendaceBtn.Click();
+            }
+            catch (Exception)
+            {
+
+                try
+                {
+                    if (IsElementVisible(CloseStartUpPopBtn)) { 
+                    ClickElement(CloseStartUpPopBtn);
+                    AttendaceBtn.Click();
+                }
+
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine("Close dialouge button not found");
+                }
+            }
 
            driver=SwitchToNextWindow();
                             

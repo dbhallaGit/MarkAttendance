@@ -48,7 +48,7 @@ namespace MarkAttendance.PageObjects
         public IWebElement EndHour { get; private set; }
 
         
-        [FindsBy(How = How.Id, Using = "idleTime_Activity")]
+        [FindsBy(How = How.XPath, Using = "//*[@id='idleTime_Activity']")]
         public IWebElement Activity { get; private set; }
 
         [FindsBy(How = How.Id, Using = "idle_description")] 
@@ -165,8 +165,9 @@ namespace MarkAttendance.PageObjects
             SelectElement selectEndHour = new SelectElement(EndHour);
             selectEndHour.SelectByIndex(Convert.ToInt32(ConfigurationManager.AppSettings["ShiftEndTime"]));
 
+           // Activity.Click();
             SelectElement selectActivity = new SelectElement(Activity);
-            selectActivity.SelectByText("Working/Testing on Other Devices");
+            selectActivity.SelectByText("Working/Testing on other system");
 
             Description.SendKeys("WFH");
 
@@ -215,7 +216,7 @@ namespace MarkAttendance.PageObjects
                 columnNumber = 78;
                 SelectTimeSheet(columnNumber);
             }
-            else if (DayOfWeek().Equals("thrusday"))
+            else if (DayOfWeek().Equals("thursday"))
             {
                 columnNumber = 150;
                 SelectTimeSheet(columnNumber);

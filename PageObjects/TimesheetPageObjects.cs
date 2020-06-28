@@ -232,9 +232,12 @@ namespace MarkAttendance.PageObjects
                 SelectTimeSheet(columnNumber);
             }
             else if (DayOfWeek().Equals("sunday"))
-                Console.WriteLine("Sunday");
+            {
+                columnNumber = 294;
+                SelectTimeSheet(columnNumber);
+            }
 
-            
+
         }
 
     }

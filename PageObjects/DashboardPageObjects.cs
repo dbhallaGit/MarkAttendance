@@ -12,7 +12,7 @@ namespace MarkAttendance.PageObjects
     class DashboardPageObjects:BaseClass
     {
 
-        
+        [Obsolete]
         public DashboardPageObjects() {
             PageFactory.InitElements(BaseClass.driver, this);
         }
@@ -47,7 +47,7 @@ namespace MarkAttendance.PageObjects
             catch (Exception e)
             {
 
-                Console.WriteLine("Close dialouge button not found");
+                Console.WriteLine("Close dialouge button not found"+ e.Message);
             }
         }
 
@@ -81,7 +81,7 @@ namespace MarkAttendance.PageObjects
             catch (Exception e)
             {
 
-                Console.WriteLine("Close dialouge button not found");
+                Console.WriteLine("Close dialouge button not found"+ e.Message);
             }
         }
 
@@ -105,7 +105,7 @@ namespace MarkAttendance.PageObjects
                 catch (Exception e)
                 {
 
-                    Console.WriteLine("Close dialouge button not found");
+                    Console.WriteLine("Close dialouge button not found"+e.Message);
                 }
             }
 

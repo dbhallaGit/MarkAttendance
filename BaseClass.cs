@@ -39,7 +39,7 @@ namespace MarkAttendance
             driver.Quit();
         }
 
-
+        
         [Before]
         [Obsolete]
         public static void GivenInitializeDriver()
@@ -165,7 +165,10 @@ namespace MarkAttendance
             try {
                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(element));
                return element.Displayed;
-            } catch(Exception e){
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
                 return false;
             }
         }
